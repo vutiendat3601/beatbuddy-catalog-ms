@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>vn.io.datvutech.beatbuddy</groupId>
 	<artifactId>catalog</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Catalog Service</name>
 	<description>Beat Buddy - Catalog Service</description>
 	<properties>
