@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: catalog
+  datasource:
+    url: jdbc:postgresql://localhost:5432/beatbuddy_catalog
+    username: bbcatalogdb
+    password: bbcatalogdb
+  jpa:
+    show-sql: true
+    
