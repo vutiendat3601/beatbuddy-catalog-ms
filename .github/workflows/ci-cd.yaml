@@ -37,5 +37,4 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_READ_WRITE_TOKEN }}
     - name: Build docker image and push to Docker Hub
-      run: mvn jib:build
-      
+      run: mvn clean install -DskipTests jib:build
