@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Java CI/CD with Maven, Docker
 
 on:
   pull_request:
@@ -27,3 +27,15 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+  push:
+    needs: build
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_READ_WRITE_TOKEN }}
+    - name: Build docker image and push to Docker Hub
+      run: mvn jib:build
+      
