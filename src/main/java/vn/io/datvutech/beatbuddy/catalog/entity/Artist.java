@@ -20,7 +20,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Table(name = "artists")
 @Entity
-public class Artist extends AbstractEntity {
+public class Artist extends AbstractCatalog {
     @Id
     @GeneratedValue(generator = "pg-uuid")
     private UUID artistId;

@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing(auditorAwareRef = "auditAwareImpl")
 @SpringBootApplication
 public class CatalogServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(CatalogServiceApplication.class, args);
 	}
-
 }

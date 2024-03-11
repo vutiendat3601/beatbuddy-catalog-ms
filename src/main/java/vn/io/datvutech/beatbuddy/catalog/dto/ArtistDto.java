@@ -23,7 +23,7 @@ public class ArtistDto {
     private Boolean isVerified;
 
     @Schema(name = "isPublic", description = "Artist is visible to the world or not")
-    private boolean isPublic;
+    private Boolean isPublic;
 
     @Schema(name = "realName", description = "Real name in the real life of Artist")
     private String realName;
@@ -45,4 +45,13 @@ public class ArtistDto {
 
     @Schema(name = "background", description = "Background image url of Artist")
     private String background;
+
+    @Schema(name = "totalViews", description = "Total views of Artist page")
+    private Long totalViews;
+
+    @Schema(name = "totalLikes", description = "Total likes of Artist")
+    private Long totalLikes;
+
+    @Schema(name = "totalShares", description = "Total shares of Artist")
+    private Long totalShares;
 }
