@@ -18,7 +18,7 @@ public class TrackController {
     private final TrackService trackService;
 
     @GetMapping("{id}")
-    public ResponseEntity<TrackDto> getTrack(@Length(min = 16, max = 16, message = "Track ID must be 10 digits") @PathVariable String id) {
+    public ResponseEntity<TrackDto> getTrack(@Length(min = 16, max = 16, message = "Track ID must be 16 characters") @PathVariable String id) {
         TrackDto trackDto = trackService.getTrack(id);
         return ResponseEntity.ok(trackDto);
     }
