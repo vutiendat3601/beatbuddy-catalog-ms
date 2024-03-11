@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name = "tracks")
 @Entity
-public class Track {
+public class Track extends AbstractCatalog {
     @Id
     @GeneratedValue(generator = "pg-uuid")
     private UUID trackId;
@@ -26,15 +26,17 @@ public class Track {
 
     private String name;
 
-    private Boolean isPublic;
+    private Boolean isPublic = false;
 
     private String description;
 
     private String releasedDate;
 
-    private Long durationSec;
+    private Integer durationSec = 0;
 
-    private Boolean isPlayable;
+    private Boolean isPlayable = false;
 
     private String thumbnail;
+
+    private Long totalListens = 0L;
 }

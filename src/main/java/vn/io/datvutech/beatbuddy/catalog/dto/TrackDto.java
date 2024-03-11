@@ -20,7 +20,7 @@ public class TrackDto {
     private String name;
 
     @Schema(name = "durationSec", description = "Length of Track time")
-    private Long durationSec;
+    private Integer durationSec = 0;
 
     @Schema(name = "description", description = "Description about Track")
     private String description;
@@ -32,10 +32,22 @@ public class TrackDto {
     private String thumbnail;
 
     @Schema(name = "isPublic", description = "Track is visible to the world or not")
-    private Boolean isPublic;
+    private Boolean isPublic = false;
 
     @Schema(name = "isPlayable", description = "Track could be playable or not")
-    private Boolean isPlayable;
+    private Boolean isPlayable = false;
+
+    @Schema(name = "totalViews", description = "Total views of Track page")
+    private Long totalViews = 0L;
+
+    @Schema(name = "totalLikes", description = "Total likes of Track")
+    private Long totalLikes = 0L;
+
+    @Schema(name = "totalShares", description = "Total shares of Track")
+    private Long totalShares = 0L;
+
+    @Schema(name = "totalListens", description = "Total listens of Track")
+    private Long totalListens = 0L;
 
     private List<ArtistDto> artits;
 }
