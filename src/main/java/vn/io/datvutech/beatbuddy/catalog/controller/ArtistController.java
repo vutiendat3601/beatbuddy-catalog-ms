@@ -19,7 +19,7 @@ public class ArtistController {
 
     @GetMapping("{id}")
     public ResponseEntity<ArtistDto> getArtist(
-            @Length(min = 16, max = 16, message = "Track ID must be 10 digits") @PathVariable String id) {
+            @Length(min = 16, max = 16, message = "Artist ID must be 16 characters") @PathVariable String id) {
         ArtistDto artistDto = artistService.getArtist(id);
         return ResponseEntity.ok(artistDto);
     }
