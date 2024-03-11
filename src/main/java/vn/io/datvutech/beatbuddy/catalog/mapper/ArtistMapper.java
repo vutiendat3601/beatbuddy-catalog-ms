@@ -9,7 +9,7 @@ public class ArtistMapper {
         artistDto.setUrn(artist.getUrn());
         artistDto.setName(artist.getName());
         artistDto.setIsVerified(artist.getIsVerified());
-        artistDto.setPublic(artist.getIsPublic());
+        artistDto.setIsPublic(artist.getIsPublic());
         artistDto.setRealName(artist.getRealName());
         artistDto.setBirthDate(artist.getBirthDate());
         artistDto.setDescription(artist.getDescription());
@@ -17,6 +17,9 @@ public class ArtistMapper {
         artistDto.setBiography(artist.getBiography());
         artistDto.setThumbnail(artist.getThumbnail());
         artistDto.setBackground(artist.getBackground());
+        artistDto.setTotalViews(artist.getTotalViews());
+        artistDto.setTotalLikes(artist.getTotalLikes());
+        artistDto.setTotalShares(artist.getTotalShares());
         return artistDto;
     }
 }
