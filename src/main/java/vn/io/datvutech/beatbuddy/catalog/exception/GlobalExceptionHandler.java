@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.method.MethodValidationException;
 import org.springframework.validation.method.ParameterValidationResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,23 +33,27 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorRespDto, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponseDto> handleResourceNotFoundException(
-            ResourceNotFoundException e,
+    @ExceptionHandler(HandlerMethodValidationException.class)
+    protected ResponseEntity<?> handleHandlerMethodArgumentNotValid(
+            HandlerMethodValidationException e,
             HttpServletRequest req
 
     ) {
-        ErrorResponseDto errorRespDto = new ErrorResponseDto(
-                req.getServletPath(),
-                HttpStatus.NOT_FOUND,
-                e.getMessage(),
-                ZonedDateTime.now());
-        return new ResponseEntity<>(errorRespDto, HttpStatus.NOT_FOUND);
+        final Map<String, String[]> validationErrors = new HashMap<>();
+        List<ParameterValidationResult> valiationResults = e.getValueResults();
+        valiationResults.forEach(vr -> {
+            MethodParameter param = vr.getMethodParameter();
+            String messages[] = vr.getResolvableErrors().stream().map(re -> re.getDefaultMessage())
+                    .toArray(String[]::new);
+            validationErrors.put(param.getParameterName(), messages);
+        });
+
+        return ResponseEntity.badRequest().body(validationErrors);
     }
 
-    @ExceptionHandler(HandlerMethodValidationException.class)
+    @ExceptionHandler(MethodValidationException.class)
     protected ResponseEntity<?> handleMethodArgumentNotValid(
-            HandlerMethodValidationException e,
+            MethodValidationException e,
             HttpServletRequest req
 
     ) {
