@@ -14,6 +14,10 @@ public class TrackMapper {
         trackDto.setThumbnail(track.getThumbnail());
         trackDto.setIsPublic(track.getIsPublic());
         trackDto.setIsPlayable(track.getIsPlayable());
+        trackDto.setTotalViews(track.getTotalViews());
+        trackDto.setTotalLikes(track.getTotalLikes());
+        trackDto.setTotalShares(track.getTotalShares());
+        trackDto.setTotalListens(track.getTotalListens());
         return trackDto;
     }
 }
