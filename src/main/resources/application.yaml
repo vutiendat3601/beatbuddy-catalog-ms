@@ -1,3 +1,5 @@
+server:
+  port: 0
 spring:
   application:
     name: catalog
@@ -10,4 +12,10 @@ spring:
     baseline-on-migrate: true
   jpa:
     show-sql: true
-    
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
