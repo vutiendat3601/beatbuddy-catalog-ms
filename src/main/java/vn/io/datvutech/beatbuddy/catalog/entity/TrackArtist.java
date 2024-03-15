@@ -28,5 +28,5 @@ public class TrackArtist extends AbstractEntity {
 
     private UUID artistId;
 
-    private Boolean isActive;
+    private Boolean isActive = true;
 }
