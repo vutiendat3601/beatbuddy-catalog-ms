@@ -37,7 +37,7 @@ public class TrackServiceImpl implements TrackService {
                 .map(artist -> ArtistMapper.mapToArtistDto(artist, new ArtistDto())).toList();
 
         TrackDto trackDto = TrackMapper.mapToTrackDto(track, new TrackDto());
-        trackDto.setArtits(artistDtos);
+        trackDto.setArtists(artistDtos);
         return trackDto;
     }
 }

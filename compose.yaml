@@ -2,8 +2,9 @@ version: '3.8'
 name: bbcatalog
 
 services:
-  bbcatalogdb:
-    image: postgres:16.1-bookworm
+  catalog-db:
+    image: postgres:16.2-alpine3.19
+    hostname: catalog-db
     environment:
       - POSTGRES_DB=beatbuddy_catalog
       - POSTGRES_USER=bbcatalogdb
@@ -12,11 +13,11 @@ services:
     ports:
       - 5432:5432
     networks:
-      - bbcatalog
+      - default
     volumes:
       - ./initdb.d/:/docker-entrypoint-initdb.d/
 
 networks:
-  bbcatalog:
+  default:
     name: bbcatalog
     driver: bridge

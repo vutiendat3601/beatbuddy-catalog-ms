@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>2.3.0</version>
+			<version>2.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -94,12 +94,18 @@
 				<artifactId>jib-maven-plugin</artifactId>
 				<version>3.4.1</version>
 				<configuration>
+					<from>
+						<image>eclipse-temurin:17-focal@sha256:35d99da9aed93017ce7345247674e4d995eef49d4b67763e5bface2dd0703c32</image>
+					</from>
 					<to>
-						<image>docker.io/vutiendat3601/beatbuddy-catalog-ms</image>
+						<image>docker.io/vutiendat3601/beatbuddy-${project.artifactId}-ms</image>
 						<tags>
 							<tag>${project.version}</tag>
 						</tags>
 					</to>
+					<container>
+						<mainClass>vn.io.datvutech.beatbuddy.catalog.CatalogServiceApplication</mainClass>
+					</container>
 				</configuration>
 			</plugin>
 		</plugins>

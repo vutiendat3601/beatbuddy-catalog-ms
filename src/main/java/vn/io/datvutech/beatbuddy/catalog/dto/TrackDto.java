@@ -49,5 +49,5 @@ public class TrackDto {
     @Schema(name = "totalListens", description = "Total listens of Track")
     private Long totalListens = 0L;
 
-    private List<ArtistDto> artits;
+    private List<ArtistDto> artists;
 }

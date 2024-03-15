@@ -31,9 +31,9 @@ public class Artist extends AbstractCatalog {
 
     private String name;
 
-    private Boolean isVerified;
+    private Boolean isVerified = false;
 
-    private Boolean isPublic;
+    private Boolean isPublic = false;
 
     private String realName;
 
