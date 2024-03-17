@@ -3,19 +3,6 @@ server:
 spring:
   application:
     name: catalog
-  datasource:
-    url: jdbc:postgresql://localhost:5432/beatbuddy_catalog
-    username: bbcatalogdb
-    password: bbcatalogdb
-  flyway:
-    baseline-version: 0
-    baseline-on-migrate: true
-  jpa:
-    show-sql: true
-
 eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8000/eureka
   instance:
     instance-id: ${spring.application.name}:${random.value}
