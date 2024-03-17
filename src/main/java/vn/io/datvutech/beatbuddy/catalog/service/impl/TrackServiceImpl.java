@@ -2,6 +2,7 @@ package vn.io.datvutech.beatbuddy.catalog.service.impl;
 
 import static vn.io.datvutech.beatbuddy.catalog.constant.TrackConstant.TRACK;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,5 +40,20 @@ public class TrackServiceImpl implements TrackService {
         TrackDto trackDto = TrackMapper.mapToTrackDto(track, new TrackDto());
         trackDto.setArtists(artistDtos);
         return trackDto;
+    }
+
+    @Override
+    public List<TrackDto> getSeveralTracks(List<String> ids) {
+        List<TrackDto> trackDtos = new LinkedList<>();
+        for (String id : ids) {
+            TrackDto trackDto = null;
+            try {
+                trackDto = getTrack(id);
+                trackDtos.add(trackDto);
+            } catch (ResourceNotFoundException e) {
+            }
+            trackDtos.add(trackDto);
+        }
+        return trackDtos;
     }
 }
