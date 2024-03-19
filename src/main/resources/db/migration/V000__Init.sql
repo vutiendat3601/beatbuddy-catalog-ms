@@ -12,14 +12,14 @@ CREATE TABLE artists (
 	nationality varchar(255) NULL,
 	thumbnail varchar(255) NULL,
 	background varchar(255) NULL,
+	total_likes int8 DEFAULT 0 NOT NULL,
+	total_views int8 DEFAULT 0 NOT NULL,
+	total_shares int8 DEFAULT 0 NOT NULL,
 	ref_code varchar(100) NULL,
 	created_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
 	created_by varchar(255) NULL,
-	updated_by varchar(255) NULL,
-	total_likes int8 DEFAULT 0 NOT NULL,
-	total_views int8 DEFAULT 0 NOT NULL,
-	total_shares int8 DEFAULT 0 NOT NULL
+	updated_by varchar(255) NULL
 );
 
 CREATE TABLE tracks (
@@ -33,14 +33,14 @@ CREATE TABLE tracks (
 	duration_sec int4 DEFAULT 0 NOT NULL,
 	is_playable bool DEFAULT false NOT NULL,
 	thumbnail varchar(255) NULL,
-	created_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
-	created_by varchar(255) NULL,
-	updated_by varchar(255) NULL,
 	total_likes int8 DEFAULT 0 NOT NULL,
 	total_views int8 DEFAULT 0 NOT NULL,
 	total_shares int8 DEFAULT 0 NOT NULL,
-	total_listens int8 DEFAULT 0 NOT NULL
+	total_listens int8 DEFAULT 0 NOT NULL,
+	created_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	updated_at timestamptz DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	created_by varchar(255) NULL,
+	updated_by varchar(255) NULL
 );
 
 CREATE TABLE track_artist (

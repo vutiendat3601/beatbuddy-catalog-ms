@@ -34,7 +34,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HandlerMethodValidationException.class)
-    protected ResponseEntity<?> handleHandlerMethodArgumentNotValid(
+    public ResponseEntity<?> handleHandlerMethodArgumentNotValid(
             HandlerMethodValidationException e,
             HttpServletRequest req
 
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodValidationException.class)
-    protected ResponseEntity<?> handleMethodArgumentNotValid(
+    public ResponseEntity<?> handleMethodArgumentNotValid(
             MethodValidationException e,
             HttpServletRequest req
 
