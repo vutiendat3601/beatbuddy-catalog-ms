@@ -3,10 +3,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/beatbuddy_catalog
     username: bbcatalogdb
     password: bbcatalogdb
-    flyway:
+  flyway:
       baseline-version: 0
       baseline-on-migrate: true
-    jpa:
+  jpa:
       show-sql: true
 eureka:
   client:
