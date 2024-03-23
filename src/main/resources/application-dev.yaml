@@ -1,3 +1,5 @@
+server:
+  port: 0
 spring:
   datasource:
     url: jdbc:postgresql://catalog-db:5432/beatbuddy_catalog
@@ -8,7 +10,13 @@ spring:
     baseline-on-migrate: true
   jpa:
       show-sql: true
+  devtools:
+    livereload:
+      enabled: true
 eureka:
   client:
+    enabled: true
     serviceUrl:
       defaultZone: http://eureka-discovery:8000/eureka
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
