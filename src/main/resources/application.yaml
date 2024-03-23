@@ -1,8 +1,11 @@
 server:
-  port: 0
+  port: 8080
 spring:
   application:
     name: catalog
+  devtools:
+    livereload:
+      enabled: false
 eureka:
-  instance:
-    instance-id: ${spring.application.name}:${random.value}
+  client:
+    enabled: false
