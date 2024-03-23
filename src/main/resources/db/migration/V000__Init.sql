@@ -1,4 +1,4 @@
-CREATE TABLE artists (
+CREATE TABLE IF NOT EXISTS artists (
 	artist_id uuid NOT NULL,
 	id bpchar(16) NOT NULL,
 	urn varchar(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE artists (
 	updated_by varchar(255) NULL
 );
 
-CREATE TABLE tracks (
+CREATE TABLE IF NOT EXISTS tracks (
 	track_id uuid NOT NULL,
 	id bpchar(16) NOT NULL,
 	urn varchar(100) NOT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE tracks (
 	updated_by varchar(255) NULL
 );
 
-CREATE TABLE track_artist (
+CREATE TABLE IF NOT EXISTS track_artist (
 	id uuid NOT NULL,
 	track_id uuid NOT NULL,
 	artist_id uuid NOT NULL,
