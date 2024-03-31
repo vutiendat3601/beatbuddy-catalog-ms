@@ -6,6 +6,9 @@ spring:
   devtools:
     livereload:
       enabled: false
-eureka:
-  client:
-    enabled: false
+      port: 0
+client:
+  artist:
+    url: http://artist-ms:8040
+  track:
+    url: http://track-ms:8050
