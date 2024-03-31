@@ -89,7 +89,7 @@
 						</tags>
 					</to>
 					<container>
-						<mainClass>vn.io.vutiendat3601.beatbuddy.user.UserServiceApplication</mainClass>
+						<mainClass>vn.io.vutiendat3601.beatbuddy.catalog.CatalogServiceApplication</mainClass>
 					</container>
 				</configuration>
 			</plugin>
