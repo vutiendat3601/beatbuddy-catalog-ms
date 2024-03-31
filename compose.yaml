@@ -1,7 +1,7 @@
 name: beatbuddy
 
 services:
-  track-ms:
+  catalog-ms:
     image: docker.io/vutiendat3601/beatbuddy-catalog-ms:latest
     container_name: catalog-ms
     hostname: catalog-ms
