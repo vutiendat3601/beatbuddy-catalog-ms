@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "client.track.url",
+            "type": "java.lang.String",
+            "description": "Track Service base URL"
+        },
+        {
+            "name": "client.artist.url",
+            "type": "java.lang.String",
+            "description": "Artist Service base URL"
+        }
+    ]
+}
