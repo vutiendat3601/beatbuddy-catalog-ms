@@ -7,16 +7,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    services:
-      postgres:
-        image: postgres:16.1-bookworm
-        env:
-          POSTGRES_DB: beatbuddy_catalog
-          POSTGRES_USER: bbcatalogdb
-          POSTGRES_PASSWORD: bbcatalogdb
-        ports:
-          - 5432:5432
-        options: --health-cmd "pg_isready -U bbcatalogdb" --health-interval 10s --health-timeout 5s --health-retries 5
+    # services:
+    #   postgres:
+    #     image: postgres:16.1-bookworm
+    #     env:
+    #       POSTGRES_DB: beatbuddy_catalog
+    #       POSTGRES_USER: bbcatalogdb
+    #       POSTGRES_PASSWORD: bbcatalogdb
+    #     ports:
+    #       - 5432:5432
+    #     options: --health-cmd "pg_isready -U bbcatalogdb" --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
