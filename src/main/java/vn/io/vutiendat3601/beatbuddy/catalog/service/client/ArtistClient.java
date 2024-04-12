@@ -1,10 +1,10 @@
 package vn.io.vutiendat3601.beatbuddy.catalog.service.client;
 
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.ArtistConstant.ARTIST_DTO_LIST_REF;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -22,15 +22,15 @@ public class ArtistClient {
                 .build();
     }
 
-    public Mono<ArtistDto> getArtist(String id) {
+    public Mono<ResponseEntity<ArtistDto>> getArtist(String id) {
         return webClient
                 .get()
                 .uri("/v1/artists/{id}", id)
                 .retrieve()
-                .bodyToMono(ArtistDto.class);
+                .toEntity(ArtistDto.class);
     }
 
-    public Mono<List<ArtistDto>> getSeveralArtists(List<String> ids) {
+    public Mono<ResponseEntity<List<ArtistDto>>> getSeveralArtists(List<String> ids) {
         final String uri = UriComponentsBuilder.fromUriString("/v1/artists")
                 .queryParam("ids", ids)
                 .toUriString();
@@ -39,6 +39,6 @@ public class ArtistClient {
                 .get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono(ARTIST_DTO_LIST_REF);
+                .toEntity(new ParameterizedTypeReference<List<ArtistDto>>(){});
     }
 }

@@ -1,6 +1,16 @@
 {
     "properties": [
         {
+            "name": "client.user.url",
+            "type": "java.lang.String",
+            "description": "User Service base URL"
+        },
+        {
+            "name": "client.playlist.url",
+            "type": "java.lang.String",
+            "description": "Playlist Service base URL"
+        },
+        {
             "name": "client.track.url",
             "type": "java.lang.String",
             "description": "Track Service base URL"

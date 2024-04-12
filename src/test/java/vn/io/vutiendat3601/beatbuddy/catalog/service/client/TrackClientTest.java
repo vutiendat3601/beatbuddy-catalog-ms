@@ -13,24 +13,26 @@ import reactor.test.StepVerifier;
 public class TrackClientTest {
     @Test
     public void testGetTrackBadRequest() {
-        StepVerifier.create(trackClient.getTrack("null"))
+        StepVerifier.create(trackClient.getTrackById("null"))
                 .expectError(WebClientResponseException.BadRequest.class)
                 .verify();
     }
 
     @Test
-    public void testGetTrackOK() {
+    public void testGetTrackOk() {
         String trackId = "5Wl4U9AkACejStTX";
-        StepVerifier.create(trackClient.getTrack(trackId))
-                .expectNextMatches(trackDto -> trackDto.getId().equals(trackId))
+        StepVerifier
+                .create(trackClient.getTrackById(trackId))
+                .expectNextMatches(resp -> resp.getBody().getId().equals(trackId))
                 .verifyComplete();
     }
 
     @Test
     public void testgetSeveralArtists() {
         List<String> trackIds = List.of("82id8db50gXsm6zX", "VXPDiEtJ0MyJ3HO7");
-        StepVerifier.create(trackClient.getSeveralTracks(trackIds))
-                .expectNextMatches(artistDtos -> artistDtos.size() == 2)
+        StepVerifier
+                .create(trackClient.getSeveralTracks(trackIds))
+                .expectNextMatches(resp -> resp.getBody().size() == 2)
                 .verifyComplete();
     }
 

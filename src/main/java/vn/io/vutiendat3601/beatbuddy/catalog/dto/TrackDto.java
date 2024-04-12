@@ -1,5 +1,6 @@
 package vn.io.vutiendat3601.beatbuddy.catalog.dto;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,5 +53,5 @@ public class TrackDto {
     private Long totalListens = 0L;
 
     @Schema(name = "artistIds", description = "Artist ids who perform Track")
-    private List<String> artistIds = List.of();
+    private List<String> artistIds = new LinkedList<>();
 }

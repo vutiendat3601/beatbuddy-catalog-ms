@@ -2,8 +2,10 @@ package vn.io.vutiendat3601.beatbuddy.catalog.service.impl;
 
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.TrackConstant.TRACK;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -26,10 +28,12 @@ public class TrackServiceImpl implements TrackService {
     @Override
     public Mono<TrackDetailDto> getTrackDetailById(String id) {
         return trackClient
-                .getTrack(id)
+                .getTrackById(id)
+                .map(ResponseEntity::getBody)
                 .flatMap(trackDto -> artistClient
                         .getSeveralArtists(trackDto.getArtistIds())
-                        .onErrorReturn(List.of())
+                        .map(ResponseEntity::getBody)
+                        .onErrorReturn(new LinkedList<>())
                         .map(artistDtos -> {
                             TrackDetailDto trackDetailDto = TrackMapper.mapToTrackDetail(trackDto);
                             trackDetailDto.setArtists(artistDtos);
@@ -46,10 +50,12 @@ public class TrackServiceImpl implements TrackService {
     public Mono<List<TrackDetailDto>> getSeveralTrackDetails(List<String> ids) {
         return trackClient
                 .getSeveralTracks(ids)
+                .map(ResponseEntity::getBody)
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(trackDto -> artistClient
                         .getSeveralArtists(trackDto.getArtistIds())
-                        .onErrorReturn(List.of())
+                        .map(ResponseEntity::getBody)
+                        .onErrorReturn(new LinkedList<>())
                         .map(artistDtos -> {
                             TrackDetailDto trackDetailDto = TrackMapper.mapToTrackDetail(trackDto);
                             trackDetailDto.setArtists(artistDtos);

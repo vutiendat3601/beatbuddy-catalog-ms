@@ -3,3 +3,7 @@ spring:
     kubernetes:
       discovery:
         all-namespaces: true
+logging:
+  level:
+    root: INFO
+    "[vn.io.vutiendat3601.beatbuddy]": DEBUG

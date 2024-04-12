@@ -7,6 +7,7 @@ spring:
     livereload:
       enabled: false
       port: 0
+    add-properties: false
   web:
     resources:
       add-mappings: false
@@ -19,7 +20,19 @@ springdoc:
     path: /apidocs.html
 
 client:
+  user:
+    url: http://user-ms:8000
+  playlist:
+    url: http://playlist-ms:8020
   artist:
     url: http://artist-ms:8040
   track:
     url: http://track-ms:8050
+
+keycloak:
+  client:
+    beatbuddy:
+        authServerUrl: https://datvutech.io.vn/oauth
+        realm: beatbuddy
+        clientId: beatbuddy
+        clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6

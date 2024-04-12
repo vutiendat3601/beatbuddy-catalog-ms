@@ -20,10 +20,10 @@ public class ArtistClientTest {
     }
 
     @Test
-    public void testGetTrackOK() {
+    public void testGetTrackOk() {
         String artistId = "9RszPgJtO8WXEBE5";
         StepVerifier.create(artistClient.getArtist(artistId))
-                .expectNextMatches(artistDto -> artistDto.getId().equals(artistId))
+                .expectNextMatches(resp -> resp.getBody().getId().equals(artistId))
                 .verifyComplete();
     }
 
@@ -31,7 +31,7 @@ public class ArtistClientTest {
     public void testgetSeveralArtists() {
         List<String> artistIds = List.of("9RszPgJtO8WXEBE5", "F2nkWsRXi7Ox7DpK");
         StepVerifier.create(artistClient.getSeveralArtists(artistIds))
-                .expectNextMatches(artistDtos -> artistDtos.size() == 2)
+                .expectNextMatches(resp -> resp.getBody().size() == 2)
                 .verifyComplete();
     }
 
