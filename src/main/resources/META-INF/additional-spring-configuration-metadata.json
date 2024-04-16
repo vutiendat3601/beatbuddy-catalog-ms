@@ -1,14 +1,44 @@
 {
-    "properties": [
-        {
-            "name": "client.track.url",
-            "type": "java.lang.String",
-            "description": "Track Service base URL"
-        },
-        {
-            "name": "client.artist.url",
-            "type": "java.lang.String",
-            "description": "Artist Service base URL"
-        }
-    ]
+  "properties": [
+    {
+      "name": "client.user.url",
+      "type": "java.lang.String",
+      "description": "User Service base URL"
+    },
+    {
+      "name": "client.playlist.url",
+      "type": "java.lang.String",
+      "description": "Playlist Service base URL"
+    },
+    {
+      "name": "client.track.url",
+      "type": "java.lang.String",
+      "description": "Track Service base URL"
+    },
+    {
+      "name": "client.artist.url",
+      "type": "java.lang.String",
+      "description": "Artist Service base URL"
+    },
+    {
+      "name": "keycloak.client.beatbuddy.auth-server-url",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.client.beatbuddy.auth-server-url'"
+    },
+    {
+      "name": "keycloak.client.beatbuddy.realm",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.client.beatbuddy.realm'"
+    },
+    {
+      "name": "keycloak.client.beatbuddy.clientId",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.client.beatbuddy.clientId'"
+    },
+    {
+      "name": "keycloak.client.beatbuddy.clientSecret",
+      "type": "java.lang.String",
+      "description": "A description for 'keycloak.client.beatbuddy.clientSecret'"
+    }
+  ]
 }

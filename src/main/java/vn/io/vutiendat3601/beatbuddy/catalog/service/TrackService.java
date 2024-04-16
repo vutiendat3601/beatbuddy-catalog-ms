@@ -1,12 +1,11 @@
 package vn.io.vutiendat3601.beatbuddy.catalog.service;
 
 import java.util.List;
-
 import reactor.core.publisher.Mono;
-import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackDetailDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackDto;
 
 public interface TrackService {
-    Mono<TrackDetailDto> getTrackDetailById(String id);
+  Mono<TrackDto> getTrack(String id);
 
-    Mono<List<TrackDetailDto>> getSeveralTrackDetails(List<String> ids);
+  Mono<List<TrackDto>> getSeveralTracks(List<String> ids);
 }
