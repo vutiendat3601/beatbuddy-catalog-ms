@@ -1,23 +1,20 @@
 package vn.io.vutiendat3601.beatbuddy.catalog.service;
 
 import java.net.URI;
-
 import reactor.core.publisher.Mono;
-import vn.io.vutiendat3601.beatbuddy.catalog.dto.PaginationDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.CreatePlaylistDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.PlaylistDto;
-import vn.io.vutiendat3601.beatbuddy.catalog.dto.PlaylistEditTrackItemDto;
-import vn.io.vutiendat3601.beatbuddy.catalog.dto.PlaylistSnapshotDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.UpdatePlaylistDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.UpdatePlaylistItemDto;
 
 public interface PlaylistService {
-    Mono<URI> createPlaylist(PlaylistDto playlistDto);
+  Mono<URI> createPlaylist(CreatePlaylistDto createPlaylistDto);
 
-    Mono<PaginationDto<PlaylistSnapshotDto>> getPlaylistSnapshots(String id, int page, int size);
+  Mono<Void> updatePlaylist(String id, UpdatePlaylistDto updatePlaylistDto);
 
-    Mono<Void> updatePlaylist(String id, PlaylistDto playlistDto);
+  Mono<Void> addPlaylistItems(String id, UpdatePlaylistItemDto updateTrackItemDto);
 
-    Mono<Void> addPlaylistTrackItems(String id, PlaylistEditTrackItemDto editTrackItemDto);
+  Mono<Void> removePlaylistItems(String id, UpdatePlaylistItemDto updateTrackItemDto);
 
-    Mono<Void> removePlaylistTrackItems(String id, PlaylistEditTrackItemDto editTrackItemDto);
-
-    Mono<PlaylistDto> getPlaylist(String id);
+  Mono<PlaylistDto> getPlaylist(String id);
 }

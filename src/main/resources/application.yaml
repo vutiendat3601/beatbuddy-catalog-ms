@@ -1,5 +1,7 @@
 server:
   port: 8010
+  compression:
+    enabled: true
 spring:
   application:
     name: catalog
@@ -32,7 +34,7 @@ client:
 keycloak:
   client:
     beatbuddy:
-        authServerUrl: https://datvutech.io.vn/oauth
-        realm: beatbuddy
-        clientId: beatbuddy
-        clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6
+      authServerUrl: https://datvutech.io.vn/oauth
+      realm: beatbuddy
+      clientId: beatbuddy
+      clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6

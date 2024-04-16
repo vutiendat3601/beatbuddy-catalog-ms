@@ -2,3 +2,7 @@ spring:
   devtools:
     livereload:
       enabled: true
+logging:
+  level:
+    root: INFO
+    "[vn.io.vutiendat3601.beatbuddy]": DEBUG
