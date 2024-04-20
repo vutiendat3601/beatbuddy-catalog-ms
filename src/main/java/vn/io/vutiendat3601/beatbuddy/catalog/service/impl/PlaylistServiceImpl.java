@@ -2,28 +2,34 @@ package vn.io.vutiendat3601.beatbuddy.catalog.service.impl;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_ADD_ITEM_SCOPE;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_COLLABORATIVE_TYPE;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_DELETE_SCOPE;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_EDIT_SCOPE;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_ID_LENGTH;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_PUBLIC_TYPE;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_REMOVE_ITEM_SCOPE;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_URI_PREFIX;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_URN_PREFIX;
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistScope.PLAYLIST_DELETE;
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistScope.PLAYLIST_EDIT;
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistScope.PLAYLIST_VIEW;
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistScope.PLAYLIST_VIEW_PUBLIC;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PLAYLIST_VIEW_SCOPE;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.TrackConstant.TRACK_URN_PREFIX;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import lombok.RequiredArgsConstructor;
+
 import org.keycloak.representations.idm.authorization.PermissionTicketRepresentation;
 import org.keycloak.representations.idm.authorization.ResourceRepresentation;
 import org.keycloak.representations.idm.authorization.ScopeRepresentation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -46,11 +52,15 @@ import vn.io.vutiendat3601.beatbuddy.catalog.util.StringUtil;
 @RequiredArgsConstructor
 @Service
 public class PlaylistServiceImpl implements PlaylistService {
-  private static final List<String> PUBLIC_PLAYLIST_SCOPES =
-      List.of(PLAYLIST_VIEW_PUBLIC, PLAYLIST_EDIT, PLAYLIST_DELETE);
-
-  private static final List<String> COLLABORATIVE_PLAYLIST_SCOPES =
-      List.of(PLAYLIST_VIEW, PLAYLIST_EDIT, PLAYLIST_DELETE);
+  private final List<String> PLAYLIST_OWNER_SCOPES =
+      List.of(
+          new String[] {
+            PLAYLIST_VIEW_SCOPE,
+            PLAYLIST_EDIT_SCOPE,
+            PLAYLIST_DELETE_SCOPE,
+            PLAYLIST_ADD_ITEM_SCOPE,
+            PLAYLIST_REMOVE_ITEM_SCOPE
+          });
 
   private final TrackClient trackClient;
   private final TrackService trackService;
@@ -66,15 +76,11 @@ public class PlaylistServiceImpl implements PlaylistService {
         .flatMap(
             userDto -> {
               createPlaylistDto.setOwnerId(userDto.getId());
-              final List<String> scopes =
-                  createPlaylistDto.getIsPublic()
-                      ? PUBLIC_PLAYLIST_SCOPES
-                      : COLLABORATIVE_PLAYLIST_SCOPES;
               return createPlaylistResource(createPlaylistDto)
                   .flatMap(
                       resource -> {
                         return grantPlaylistResourcePermission(
-                                resource.getId(), scopes, userDto.getAuthUserId())
+                                resource.getId(), PLAYLIST_OWNER_SCOPES, userDto.getAuthUserId())
                             .thenReturn(resource);
                       })
                   .flatMap(
@@ -117,12 +123,14 @@ public class PlaylistServiceImpl implements PlaylistService {
                           userDtos ->
                               userDtos.stream().collect(Collectors.toMap(UserDto::getId, u -> u)));
               Mono<Map<String, TrackDto>> trackDtosMapMono =
-                  trackService
-                      .getSeveralTracks(trackIds)
-                      .map(
-                          trackDtos ->
-                              trackDtos.stream()
-                                  .collect(Collectors.toMap(TrackDto::getUrn, t -> t)));
+                  trackIds.size() == 0
+                      ? Mono.just(new HashMap<>())
+                      : trackService
+                          .getSeveralTracks(trackIds)
+                          .map(
+                              trackDtos ->
+                                  trackDtos.stream()
+                                      .collect(Collectors.toMap(TrackDto::getUrn, t -> t)));
               return Flux.zip(userDtosMapMono, trackDtosMapMono)
                   .doOnNext(
                       tuple -> {
@@ -212,25 +220,38 @@ public class PlaylistServiceImpl implements PlaylistService {
 
   private Mono<ResourceRepresentation> createPlaylistResource(CreatePlaylistDto createPlaylistDto) {
     Set<ScopeRepresentation> scopes =
-        createPlaylistDto.getIsPublic()
-            ? PUBLIC_PLAYLIST_SCOPES.stream()
-                .map(ScopeRepresentation::new)
-                .collect(Collectors.toSet())
-            : COLLABORATIVE_PLAYLIST_SCOPES.stream()
-                .map(ScopeRepresentation::new)
-                .collect(Collectors.toSet());
+        PLAYLIST_OWNER_SCOPES.stream().map(ScopeRepresentation::new).collect(Collectors.toSet());
     Set<String> uris =
         Set.of(
             PLAYLIST_URI_PREFIX + "/" + createPlaylistDto.getId(),
-            PLAYLIST_URI_PREFIX + "/" + createPlaylistDto.getId() + "/*");
+            PLAYLIST_URI_PREFIX + "/" + createPlaylistDto.getId() + "/items");
+    String type =
+        createPlaylistDto.getIsPublic() ? PLAYLIST_PUBLIC_TYPE : PLAYLIST_COLLABORATIVE_TYPE;
     ResourceRepresentation resourceRep = new ResourceRepresentation();
     resourceRep.setName(PLAYLIST_URN_PREFIX + ":" + createPlaylistDto.getId());
     resourceRep.setDisplayName(createPlaylistDto.getName());
-    resourceRep.setType(PLAYLIST_URN_PREFIX);
+    resourceRep.setType(type);
     resourceRep.setOwnerManagedAccess(true);
     resourceRep.setScopes(scopes);
     resourceRep.setUris(uris);
     return authzClient.createResource(resourceRep);
+  }
+
+  private Mono<Void> updatePlaylistResource(PlaylistDto playlistDto) {
+    Set<String> uris =
+        Set.of(
+            PLAYLIST_URI_PREFIX + "/" + playlistDto.getId(),
+            PLAYLIST_URI_PREFIX + "/" + playlistDto.getId() + "/items");
+    String type = playlistDto.getIsPublic() ? PLAYLIST_PUBLIC_TYPE : PLAYLIST_COLLABORATIVE_TYPE;
+    return authzClient
+        .getResourceByName(playlistDto.getUrn())
+        .flatMap(
+            resource -> {
+              resource.setDisplayName(playlistDto.getName());
+              resource.setUris(uris);
+              resource.setType(type);
+              return authzClient.updateResource(resource);
+            });
   }
 
   private Mono<Void> grantPlaylistResourcePermission(
@@ -247,29 +268,5 @@ public class PlaylistServiceImpl implements PlaylistService {
               return authzClient.createPermissionTicket(permissionTicketRep);
             })
         .thenEmpty(Mono.empty());
-  }
-
-  private Mono<Void> updatePlaylistResource(PlaylistDto playlistDto) {
-    Set<ScopeRepresentation> scopes =
-        playlistDto.getIsPublic()
-            ? PUBLIC_PLAYLIST_SCOPES.stream()
-                .map(ScopeRepresentation::new)
-                .collect(Collectors.toSet())
-            : COLLABORATIVE_PLAYLIST_SCOPES.stream()
-                .map(ScopeRepresentation::new)
-                .collect(Collectors.toSet());
-    Set<String> uris =
-        Set.of(
-            PLAYLIST_URI_PREFIX + "/" + playlistDto.getId(),
-            PLAYLIST_URI_PREFIX + "/" + playlistDto.getId() + "/*");
-    return authzClient
-        .getResourceByName(playlistDto.getUrn())
-        .flatMap(
-            resource -> {
-              resource.setScopes(scopes);
-              resource.setDisplayName(playlistDto.getName());
-              resource.setUris(uris);
-              return authzClient.updateResource(resource);
-            });
   }
 }

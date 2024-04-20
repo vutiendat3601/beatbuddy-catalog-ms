@@ -32,8 +32,8 @@ client:
     url: http://track-ms:8050
 
 keycloak:
-  client:
-    beatbuddy:
+  authorization:
+    client:
       authServerUrl: https://datvutech.io.vn/oauth
       realm: beatbuddy
       clientId: beatbuddy

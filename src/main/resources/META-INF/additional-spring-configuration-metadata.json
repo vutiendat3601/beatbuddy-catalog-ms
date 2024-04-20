@@ -21,24 +21,24 @@
       "description": "Artist Service base URL"
     },
     {
-      "name": "keycloak.client.beatbuddy.auth-server-url",
+      "name": "keycloak.authorization.client.auth-server-url",
       "type": "java.lang.String",
-      "description": "A description for 'keycloak.client.beatbuddy.auth-server-url'"
+      "description": "A description for 'keycloak.authorization.client.auth-server-url'"
     },
     {
-      "name": "keycloak.client.beatbuddy.realm",
+      "name": "keycloak.authorization.client.realm",
       "type": "java.lang.String",
-      "description": "A description for 'keycloak.client.beatbuddy.realm'"
+      "description": "A description for 'keycloak.authorization.client.realm'"
     },
     {
-      "name": "keycloak.client.beatbuddy.clientId",
+      "name": "keycloak.authorization.client.clientId",
       "type": "java.lang.String",
-      "description": "A description for 'keycloak.client.beatbuddy.clientId'"
+      "description": "A description for 'keycloak.authorization.client.clientId'"
     },
     {
-      "name": "keycloak.client.beatbuddy.clientSecret",
+      "name": "keycloak.authorization.client.clientSecret",
       "type": "java.lang.String",
-      "description": "A description for 'keycloak.client.beatbuddy.clientSecret'"
+      "description": "A description for 'keycloak.authorization.client.clientSecret'"
     }
   ]
 }

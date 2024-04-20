@@ -7,9 +7,6 @@ import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.PL
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.STATUS_200;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.STATUS_201;
 
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +18,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.CreatePlaylistDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.PlaylistDto;
@@ -67,6 +68,22 @@ public class PlaylistController {
         .then(Mono.just(ResponseEntity.ok(new ResponseDto(STATUS_200, MESSAGE_200))));
   }
 
+  // @PutMapping(path = "{id}", consumes = APPLICATION_JSON_VALUE)
+  public Mono<ResponseEntity<ResponseDto>> createCollaborationInvitation(
+      @Length(
+              min = PLAYLIST_ID_LENGTH,
+              max = PLAYLIST_ID_LENGTH,
+              message = "Playlist ID must be " + PLAYLIST_ID_LENGTH + " characters")
+          @PathVariable
+          String id) {
+    // log.info("Update Playlist: id={}", id);
+    // log.debug("Update Playlist: updatePlaylistDto={}", updatePlaylistDto);
+    // return playlistService
+    //     .updatePlaylist(id, updatePlaylistDto)
+    //     .then(Mono.just(ResponseEntity.ok(new ResponseDto(STATUS_200, MESSAGE_200))));
+    return Mono.empty();
+  }
+
   @GetMapping(path = "{id}")
   public Mono<ResponseEntity<PlaylistDto>> getPlaylist(
       @Length(
@@ -104,7 +121,6 @@ public class PlaylistController {
           @PathVariable
           String id,
       @Validated(RemoveItem.class) @RequestBody UpdatePlaylistItemDto removePlaylistItemDto) {
-
     log.info("Remove Playlist Item: id={}", id);
     log.debug("Remove Playlist Item: removePlaylistItemDto={}", removePlaylistItemDto);
     return playlistService
