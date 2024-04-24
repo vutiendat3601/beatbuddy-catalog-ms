@@ -47,7 +47,7 @@ import vn.io.vutiendat3601.beatbuddy.catalog.service.UserService;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.client.BeatbuddyKeycloakAuthzClient;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.client.PlaylistClient;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.client.TrackClient;
-import vn.io.vutiendat3601.beatbuddy.catalog.util.StringUtil;
+import vn.io.vutiendat3601.beatbuddy.catalog.util.StringUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -70,7 +70,7 @@ public class PlaylistServiceImpl implements PlaylistService {
 
   @Override
   public Mono<URI> createPlaylist(CreatePlaylistDto createPlaylistDto) {
-    createPlaylistDto.setId(StringUtil.randomString(PLAYLIST_ID_LENGTH));
+    createPlaylistDto.setId(StringUtils.randomString(PLAYLIST_ID_LENGTH));
     return userService
         .getCurrentUser()
         .flatMap(

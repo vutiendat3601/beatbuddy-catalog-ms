@@ -1,6 +1,6 @@
 package vn.io.vutiendat3601.beatbuddy.catalog.util;
 
-public class StringUtil {
+public class StringUtils {
   private static final int DEFAULT_RANDOM_LENGTH = 16;
   private static final String CHARS =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
