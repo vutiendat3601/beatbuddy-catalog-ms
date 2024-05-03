@@ -19,7 +19,6 @@ public class PlaylistClient {
   private final UserContext userContext;
 
   public PlaylistClient(@Value("${client.playlist.url}") String url, UserContext userContext) {
-
     this.webClient = WebClient.builder().baseUrl(url).build();
     this.userContext = userContext;
   }

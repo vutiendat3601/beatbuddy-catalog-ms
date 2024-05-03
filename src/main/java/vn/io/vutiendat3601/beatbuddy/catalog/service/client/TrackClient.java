@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.CreateTrackSuggestionDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.ResponseDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.util.UserContext;
 
@@ -44,5 +46,19 @@ public class TrackClient {
         .uri(uri)
         .retrieve()
         .toEntity(new ParameterizedTypeReference<List<TrackDto>>() {});
+  }
+
+  public Mono<ResponseEntity<ResponseDto>> createTrackSuggestion(CreateTrackSuggestionDto createTrackSuggDto) {
+   return userContext
+        .prepareUserContextHeader()
+        .flatMap(
+            userContextHeaders ->
+                webClient
+                    .post()
+                    .uri("/v1/track-suggestions")
+                    .headers(headers -> headers.addAll(userContextHeaders))
+                    .body(Mono.just(createTrackSuggDto), CreateTrackSuggestionDto.class)
+                    .retrieve()
+                    .toEntity(ResponseDto.class));
   }
 }

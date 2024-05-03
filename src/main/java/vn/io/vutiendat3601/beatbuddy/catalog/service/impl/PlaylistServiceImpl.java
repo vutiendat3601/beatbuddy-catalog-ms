@@ -21,15 +21,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.authorization.PermissionTicketRepresentation;
 import org.keycloak.representations.idm.authorization.ResourceRepresentation;
 import org.keycloak.representations.idm.authorization.ScopeRepresentation;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
-
-import lombok.RequiredArgsConstructor;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
@@ -44,7 +43,7 @@ import vn.io.vutiendat3601.beatbuddy.catalog.exception.ResourceNotFoundException
 import vn.io.vutiendat3601.beatbuddy.catalog.service.PlaylistService;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.TrackService;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.UserService;
-import vn.io.vutiendat3601.beatbuddy.catalog.service.client.BeatbuddyKeycloakAuthzClient;
+import vn.io.vutiendat3601.beatbuddy.catalog.service.client.KeycloakAuthzClient;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.client.PlaylistClient;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.client.TrackClient;
 import vn.io.vutiendat3601.beatbuddy.catalog.util.StringUtils;
@@ -66,7 +65,7 @@ public class PlaylistServiceImpl implements PlaylistService {
   private final TrackService trackService;
   private final PlaylistClient playlistClient;
   private final UserService userService;
-  private final BeatbuddyKeycloakAuthzClient authzClient;
+  private final KeycloakAuthzClient authzClient;
 
   @Override
   public Mono<URI> createPlaylist(CreatePlaylistDto createPlaylistDto) {
@@ -78,17 +77,16 @@ public class PlaylistServiceImpl implements PlaylistService {
               createPlaylistDto.setOwnerId(userDto.getId());
               return createPlaylistResource(createPlaylistDto)
                   .flatMap(
-                      resource -> {
-                        return grantPlaylistResourcePermission(
-                                resource.getId(), PLAYLIST_OWNER_SCOPES, userDto.getAuthUserId())
-                            .thenReturn(resource);
-                      })
+                      resource ->
+                          grantPlaylistResourcePermission(
+                                  resource.getId(), PLAYLIST_OWNER_SCOPES, userDto.getAuthUserId())
+                              .thenReturn(resource))
                   .flatMap(
                       resource ->
                           playlistClient
                               .createPlaylist(createPlaylistDto)
                               .map(ResponseEntity::getHeaders)
-                              .map(headers -> headers.getLocation()));
+                              .map(HttpHeaders::getLocation));
             })
         .onErrorResume(
             WebClientResponseException.BadRequest.class,
