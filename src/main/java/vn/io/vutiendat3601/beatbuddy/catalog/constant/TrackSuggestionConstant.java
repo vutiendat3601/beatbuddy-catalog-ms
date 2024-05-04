@@ -5,7 +5,7 @@ public interface TrackSuggestionConstant {
   int TRACK_SUGGESTION_ITEM_ID_LENGTH = 16;
   String TRACK_SUGGESTION = "Track Suggestion";
   String TRACK_SUGGESTION_URN_PREFIX = "beatbuddy:track-suggestion";
-  String TRACK_SUGGESTION_URI_PREFIX = "/v1/catalog/playlists";
+  String TRACK_SUGGESTION_URI_PREFIX = "/v1/catalog/track-suggestions";
 
   String STATUS_200 = "200";
   String MESSAGE_200 = "Request processed successfully";
