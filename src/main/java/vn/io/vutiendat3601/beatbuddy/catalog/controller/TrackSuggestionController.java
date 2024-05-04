@@ -3,12 +3,11 @@ package vn.io.vutiendat3601.beatbuddy.catalog.controller;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.MESSAGE_201;
 import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.STATUS_201;
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.TrackSuggestionConstant.TRACK_SUGGESTION_ID_LENGTH;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import static vn.io.vutiendat3601.beatbuddy.catalog.constant.TrackSuggestionConstant.TRACK_SUGGESTION_ID_LENGTH;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,9 +42,13 @@ public class TrackSuggestionController {
 
   @GetMapping(path = "{id}")
   public Mono<ResponseEntity<TrackSuggestionDto>> getTrackSuggestion(
-      @Length(min = TRACK_SUGGESTION_ID_LENGTH, max = TRACK_SUGGESTION_ID_LENGTH,
-          message = "TrackSuggestion ID must be " + TRACK_SUGGESTION_ID_LENGTH
-              + " characters") @PathVariable String id) {
+      @Length(
+              min = TRACK_SUGGESTION_ID_LENGTH,
+              max = TRACK_SUGGESTION_ID_LENGTH,
+              message = "TrackSuggestion ID must be " + TRACK_SUGGESTION_ID_LENGTH + " characters")
+          @PathVariable
+          String id) {
+    log.info("Get TrackSuggestion: id={}", id);
     return trackSuggService.getTrackSuggestion(id).map(ResponseEntity::ok);
   }
 }
