@@ -79,8 +79,7 @@ public class TrackSuggestionServiceImpl implements TrackSuggestionService {
 
   @Override
   public Mono<TrackSuggestionDto> getTrackSuggestion(String id) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTrackSuggestion'");
+    return trackClient.getTrackSuggestion(id).map(ResponseEntity::getBody);
   }
 
   private Mono<ResourceRepresentation> createTrackSuggestionResource(

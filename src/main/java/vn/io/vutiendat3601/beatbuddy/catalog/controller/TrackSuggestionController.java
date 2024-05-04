@@ -7,7 +7,12 @@ import static vn.io.vutiendat3601.beatbuddy.catalog.constant.PlaylistConstant.ST
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static vn.io.vutiendat3601.beatbuddy.catalog.constant.TrackSuggestionConstant.TRACK_SUGGESTION_ID_LENGTH;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.CreateTrackSuggestionDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.ResponseDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackSuggestionDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.service.TrackSuggestionService;
 
 @Slf4j
@@ -33,5 +39,13 @@ public class TrackSuggestionController {
         .createTrackSuggestion(createTrackSuggDto)
         .map(ResponseEntity::created)
         .map(respEntity -> respEntity.body(new ResponseDto(STATUS_201, MESSAGE_201)));
+  }
+
+  @GetMapping(path = "{id}")
+  public Mono<ResponseEntity<TrackSuggestionDto>> getTrackSuggestion(
+      @Length(min = TRACK_SUGGESTION_ID_LENGTH, max = TRACK_SUGGESTION_ID_LENGTH,
+          message = "TrackSuggestion ID must be " + TRACK_SUGGESTION_ID_LENGTH
+              + " characters") @PathVariable String id) {
+    return trackSuggService.getTrackSuggestion(id).map(ResponseEntity::ok);
   }
 }

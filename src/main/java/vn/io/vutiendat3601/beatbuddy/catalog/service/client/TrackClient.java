@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.CreateTrackSuggestionDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.ResponseDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackDto;
+import vn.io.vutiendat3601.beatbuddy.catalog.dto.TrackSuggestionDto;
 import vn.io.vutiendat3601.beatbuddy.catalog.util.UserContext;
 
 @Service
@@ -41,15 +42,21 @@ public class TrackClient {
     final String uri =
         UriComponentsBuilder.fromUriString("/v1/tracks").queryParam("ids", ids).toUriString();
 
-    return webClient
-        .get()
-        .uri(uri)
-        .retrieve()
-        .toEntity(new ParameterizedTypeReference<List<TrackDto>>() {});
+    return userContext
+        .prepareUserContextHeader()
+        .flatMap(
+            userContextHeaders ->
+                webClient
+                    .get()
+                    .uri(uri)
+                    .headers(headers -> headers.addAll(userContextHeaders))
+                    .retrieve()
+                    .toEntity(new ParameterizedTypeReference<List<TrackDto>>() {}));
   }
 
-  public Mono<ResponseEntity<ResponseDto>> createTrackSuggestion(CreateTrackSuggestionDto createTrackSuggDto) {
-   return userContext
+  public Mono<ResponseEntity<ResponseDto>> createTrackSuggestion(
+      CreateTrackSuggestionDto createTrackSuggDto) {
+    return userContext
         .prepareUserContextHeader()
         .flatMap(
             userContextHeaders ->
@@ -60,5 +67,18 @@ public class TrackClient {
                     .body(Mono.just(createTrackSuggDto), CreateTrackSuggestionDto.class)
                     .retrieve()
                     .toEntity(ResponseDto.class));
+  }
+
+  public Mono<ResponseEntity<TrackSuggestionDto>> getTrackSuggestion(String id) {
+    return userContext
+        .prepareUserContextHeader()
+        .flatMap(
+            userContextHeaders ->
+                webClient
+                    .get()
+                    .uri("/v1/track-suggestions/{id}", id)
+                    .headers(headers -> headers.addAll(userContextHeaders))
+                    .retrieve()
+                    .toEntity(TrackSuggestionDto.class));
   }
 }
