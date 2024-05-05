@@ -33,8 +33,9 @@ client:
 
 keycloak:
   authorization:
-    client:
-      authServerUrl: https://datvutech.io.vn/oauth
-      realm: beatbuddy
-      clientId: beatbuddy
-      clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6
+    service:
+      client:
+        authServerUrl: https://datvutech.io.vn/oauth
+        realm: beatbuddy
+        clientId: beatbuddy
+        clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6

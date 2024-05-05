@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ConfigurationProperties(prefix = "keycloak.authorization.client")
-public class KeycloakAuthzClientConfig {
+@ConfigurationProperties(prefix = "keycloak.authorization.service.client")
+public class KeycloakAuthzServiceClientConfig {
   @JsonProperty("auth-server-url")
   private String authServerUrl;
 
@@ -29,7 +29,7 @@ public class KeycloakAuthzClientConfig {
   private String clientSecret;
 
   @Bean
-  AuthzClient authzClient() {
+  AuthzClient keycloakAuthzServiceClient() {
     return AuthzClient.create(
         new org.keycloak.authorization.client.Configuration(
             authServerUrl, realm, clientId, Map.of("secret", clientSecret), null));
