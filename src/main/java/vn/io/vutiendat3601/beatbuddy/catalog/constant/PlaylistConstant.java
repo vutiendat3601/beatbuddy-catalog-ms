@@ -8,7 +8,7 @@ public interface PlaylistConstant {
   String PLAYLIST_COLLABORATIVE_TYPE = "beatbuddy:playlist:collaborative";
   String PLAYLIST_URI_PREFIX = "/v1/catalog/playlists";
 
-  // # Scope
+  // Scope
   String PLAYLIST_CREATE_SCOPE = "playlist:create";
   String PLAYLIST_VIEW_SCOPE = "playlist:view";
   String PLAYLIST_EDIT_SCOPE = "playlist:edit";
