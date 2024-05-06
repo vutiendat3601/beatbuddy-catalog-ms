@@ -58,6 +58,9 @@ public class TrackDto {
   @Schema(name = "artistIds", description = "Artist ids who perform Track")
   private List<String> artistIds = new LinkedList<>();
 
+  @Schema(name = "fileId", description = "File id of Track")
+  private String fileId;
+
   @Schema(name = "artists", description = "Artist list who perform Track")
   private List<ArtistDto> artists = new LinkedList<>();
 }

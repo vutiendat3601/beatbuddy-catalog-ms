@@ -7,3 +7,12 @@ logging:
   level:
     root: INFO
     "[vn.io.vutiendat3601.beatbuddy]": DEBUG
+
+keycloak:
+  authorization:
+    service:
+      client:
+        authServerUrl: https://auth.beatbuddy.io.vn
+        realm: beatbuddy
+        clientId: beatbuddy
+        clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6

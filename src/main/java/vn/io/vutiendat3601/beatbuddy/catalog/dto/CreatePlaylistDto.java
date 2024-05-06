@@ -26,5 +26,6 @@ public class CreatePlaylistDto {
   @NotNull(message = "isPublic is required")
   private Boolean isPublic = true;
 
+  @Schema(name = "ownerId", description = "Owner Id of Track Suggestion")
   private String ownerId;
 }

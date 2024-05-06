@@ -32,7 +32,6 @@ public class TrackController {
               message = "Track ID must be " + ID_LENGTH + " characters")
           @PathVariable
           String id) {
-
     return trackService.getTrack(id).map(trackDto -> ResponseEntity.ok(trackDto));
   }
 
@@ -42,7 +41,6 @@ public class TrackController {
           @NotEmpty(message = "ids must not be empty")
           @RequestParam
           List<String> ids) {
-
     return trackService.getSeveralTracks(ids).map(trackDtos -> ResponseEntity.ok(trackDtos));
   }
 }

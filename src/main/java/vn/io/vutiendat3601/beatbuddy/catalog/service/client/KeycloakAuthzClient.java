@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @Service
-public class BeatbuddyKeycloakAuthzClient {
+public class KeycloakAuthzClient {
   private final AuthzClient authzClient;
 
   public Mono<ResourceRepresentation> createResource(ResourceRepresentation resourceRep) {
@@ -18,19 +18,17 @@ public class BeatbuddyKeycloakAuthzClient {
   }
 
   public Mono<Void> updateResource(ResourceRepresentation resourceRep) {
-    return Mono.fromRunnable(
-            () -> {
-              authzClient.protection().resource().update(resourceRep);
-            })
-        .thenEmpty(Mono.empty());
+    return Mono.fromRunnable(() -> {
+      authzClient.protection().resource().update(resourceRep);
+    }).then();
   }
 
   public Mono<PermissionTicketRepresentation> createPermissionTicket(
       PermissionTicketRepresentation permissionTicketRep) {
 
     return Mono.just(authzClient.protection().permission().create(permissionTicketRep))
-        .onErrorResume(
-            WebClientResponseException.BadRequest.class, e -> Mono.just(permissionTicketRep));
+        .onErrorResume(WebClientResponseException.BadRequest.class,
+            e -> Mono.just(permissionTicketRep));
   }
 
   public Mono<ResourceRepresentation> getResourceById(String id) {

@@ -32,9 +32,10 @@ client:
     url: http://track-ms:8050
 
 keycloak:
-  client:
-    beatbuddy:
-      authServerUrl: https://datvutech.io.vn/oauth
-      realm: beatbuddy
-      clientId: beatbuddy
-      clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6
+  authorization:
+    service:
+      client:
+        authServerUrl: https://auth.beatbuddy.io.vn
+        realm: beatbuddy
+        clientId: beatbuddy
+        clientSecret: g3cQyG74X192BTW4bsr9jfV0kUTGnmG6
